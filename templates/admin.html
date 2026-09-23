@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Support desk</h1>
+<div class="stats">
+  {% for s in statuses %}
+  <div class="stat"><strong>{{ counts[s] }}</strong><span>{{ s }}</span></div>
+  {% endfor %}
+</div>
+
+<form class="panel form inline" method="get">
+  <label>Search<input name="q" value="{{ q }}" placeholder="ticket, order, email, name"></label>
+  <label>Status
+    <select name="status">
+      <option value="">All</option>
+      {% for s in statuses %}<option value="{{ s }}" {% if status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+  </label>
+  <button class="btn" type="submit">Filter</button>
+</form>
+
+{% if not rows %}
+<p class="sub">No complaints match.</p>
+{% endif %}
+
+{% for c in rows %}
+<div class="panel row">
+  <div class="row-head">
+    <div>
+      <a class="ticket" href="{{ url_for('track', ticket=c['ticket']) }}">{{ c['ticket'] }}</a>
+      <span class="badge s-{{ c['status']|replace(' ','-')|lower }}">{{ c['status'] }}</span>
+    </div>
+    <small>{{ c['created_at'] }}</small>
+  </div>
+  <p class="sub">{{ c['name'] }} · {{ c['email'] }} · order {{ c['order_id'] }} · {{ c['product'] }} · {{ c['issue_type'] }} · wants {{ c['resolution'] }}</p>
+  <p class="desc">{{ c['description'] }}</p>
+  <form method="post" action="{{ url_for('admin_update', cid=c['id']) }}" class="form inline">
+    <select name="status">
+      {% for s in statuses %}<option value="{{ s }}" {% if c['status']==s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+    <input name="note" placeholder="Note for the customer">
+    <button class="btn primary" type="submit">Update</button>
+  </form>
+</div>
+{% endfor %}
+{% endblock %}

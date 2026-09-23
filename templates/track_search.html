@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Track your complaint</h1>
+<form method="post" action="{{ url_for('track_search') }}" class="panel form inline">
+  <label>Ticket number<input name="ticket" placeholder="CMP-XXXXXX" required></label>
+  <button class="btn primary" type="submit">Track</button>
+</form>
+{% endblock %}

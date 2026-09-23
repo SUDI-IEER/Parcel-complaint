@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Order never showed up?</h1>
+  <p>File a complaint about an undelivered or missing shopping order and track it until you get a refund, replacement or a clear answer.</p>
+  <div class="cta">
+    <a class="btn primary" href="{{ url_for('new_complaint') }}">File a complaint</a>
+    <a class="btn" href="{{ url_for('track_search') }}">Track with ticket number</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><strong>{{ total }}</strong><span>complaints filed</span></div>
+    <div class="stat"><strong>{{ resolved }}</strong><span>resolved or refunded</span></div>
+    <div class="stat"><strong>24h</strong><span>typical first response</span></div>
+  </div>
+</section>
+
+<section class="cards">
+  <div class="card"><h3>1. Describe the issue</h3><p>Share your order ID, product and what went wrong — missing parcel, false delivery scan, or an empty box.</p></div>
+  <div class="card"><h3>2. Get a ticket</h3><p>You receive a ticket number instantly. Use it any time to check where your complaint stands.</p></div>
+  <div class="card"><h3>3. Follow resolution</h3><p>Every status change is logged with a note, from review through refund approval to closure.</p></div>
+</section>
+{% endblock %}

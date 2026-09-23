@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="ticket-head">
+  <div>
+    <h1>{{ c['ticket'] }}</h1>
+    <p class="sub">Filed {{ c['created_at'] }} · last update {{ c['updated_at'] }}</p>
+  </div>
+  <span class="badge s-{{ c['status']|replace(' ','-')|lower }}">{{ c['status'] }}</span>
+</div>
+
+<div class="panel">
+  <dl class="details">
+    <div><dt>Customer</dt><dd>{{ c['name'] }} ({{ c['email'] }}{% if c['phone'] %}, {{ c['phone'] }}{% endif %})</dd></div>
+    <div><dt>Order ID</dt><dd>{{ c['order_id'] }}</dd></div>
+    <div><dt>Product</dt><dd>{{ c['product'] }}</dd></div>
+    <div><dt>Amount</dt><dd>{% if c['amount'] %}{{ '%.2f'|format(c['amount']) }}{% else %}—{% endif %}</dd></div>
+    <div><dt>Ordered</dt><dd>{{ c['order_date'] or '—' }}</dd></div>
+    <div><dt>Promised delivery</dt><dd>{{ c['expected_date'] or '—' }}</dd></div>
+    <div><dt>Issue</dt><dd>{{ c['issue_type'] }}</dd></div>
+    <div><dt>Requested</dt><dd>{{ c['resolution'] }}</dd></div>
+  </dl>
+  <p class="desc">{{ c['description'] }}</p>
+</div>
+
+<h2>Timeline</h2>
+<ul class="timeline">
+  {% for u in updates %}
+  <li>
+    <span class="badge s-{{ u['status']|replace(' ','-')|lower }}">{{ u['status'] }}</span>
+    <p>{{ u['note'] }}</p>
+    <small>{{ u['created_at'] }}</small>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
